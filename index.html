@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Source Code Grabber</title>
+    <title>Source Code Grabber (Brython)</title>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython@3/brython.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython@3/brython_stdlib.js"></script>
     <style>
@@ -15,7 +15,6 @@
             width: 100%;
             height: 300px;
             margin-top: 10px;
-            color:black
         }
         button {
             padding: 10px 15px;
@@ -58,31 +57,6 @@
                 req.send()
             except Exception as e:
                 alert(f"Error: {e}")
-
-        def filter_code(code, code_type):
-            from lxml import html
-
-            # Parse the HTML document
-            tree = html.fromstring(code)
-
-            if code_type == "css":
-                # Extract inline styles and external stylesheets
-                inline_styles = [style.text for style in tree.xpath("//style")]
-                external_styles = tree.xpath("//link[@rel='stylesheet']/@href")
-                return "\n".join(inline_styles + external_styles)
-
-            elif code_type == "js":
-                # Extract inline scripts and external JavaScript
-                inline_scripts = [script.text for script in tree.xpath("//script") if script.text]
-                external_scripts = tree.xpath("//script[@src]/@src")
-                return "\n".join(inline_scripts + external_scripts)
-
-            elif code_type == "html":
-                # Return the full HTML
-                return html.tostring(tree, pretty_print=True).decode("utf-8")
-
-            return "Invalid code type selected."
-
     </script>
 </body>
 </html>
